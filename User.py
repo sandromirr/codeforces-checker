@@ -25,7 +25,7 @@ class User:
         response = requests.get(url)
         if response.status_code == 200:
             json = response.json()['result']
-            print(json)
+            #print(json)
             # return 0;
             for item in json:
                 name = item['problem']['name']
@@ -41,4 +41,4 @@ class User:
         return False
 
     def check_user_solved_problem(self, name):
-        pass
+      return self.check_solved_problem(name,1,10)
