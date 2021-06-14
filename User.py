@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 class User:
@@ -21,24 +22,22 @@ class User:
 
     def check_solved_problem(self, problem_name, start, end):
         print(f"{start}-{end}")
+        time.sleep(5)
         url = f"https://codeforces.com/api/user.status?handle={self.name}&from={start}&count={end}"
         response = requests.get(url)
         if response.status_code == 200:
             json = response.json()['result']
-            #print(json)
-            # return 0;
             for item in json:
                 name = item['problem']['name']
                 verdict = item['verdict']
-                print(f"{name} {verdict}")
                 if name == problem_name and verdict == 'OK':
                     return True
             if len(json) != 0:
                 l = end
-                r = end + 10
-                return self.check_solved_problem(problem_name, l,r)
+                r = end + 100
+                return self.check_solved_problem(problem_name, l, r)
 
         return False
 
     def check_user_solved_problem(self, name):
-      return self.check_solved_problem(name,1,10)
+        return self.check_solved_problem(name, 1, 100)
